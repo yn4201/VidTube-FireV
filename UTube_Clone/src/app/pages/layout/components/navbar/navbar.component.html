@@ -1,0 +1,49 @@
+<nav class="flex-div">
+    <div class="nav-left flex-div">
+        <img src="../../../assets/images/menu.png" alt="menu icon" class="menu-icon" (click)="turnMenu()">
+        <img src="../../../../../assets/images/LogoFireV.png" alt="logo icon" class="logo" [routerLink]="'./'">
+    </div>
+    <div class="nav-middle flex-div" style="flex-direction: column"  (blur)="resultShow = false">
+        <!-- <div>{{idToken$ | async}}</div> -->
+        <div class="search-box flex-div">
+            <input type="text" placeholder="Search" (keyup)="onFilterTextChanged($event)" (focus)="resultShow = true">
+            <img src="../../../assets/images/search.png" alt="search-icon" >
+           
+        </div>
+        <ul class="nav-middle"id="myUL" *ngIf="(searchResult$ | async)?.isSuccess && resultShow == true"> 
+            <li  *ngFor="let suggest of (searchResult$ | async)?.searchResult ; let i = index">
+                <a  *ngIf="i < 5"  (click)="playVideo(suggest.video_id)">{{suggest.title}}</a>
+            </li>
+        </ul>
+        
+        <!-- <img src="../../../assets/images/voice-search.png" alt="" class="mic-icon"> -->
+    </div>
+    <div class="nav-right flex-div">
+        <img src="../../../assets/images/upload.png" alt="upload-icon">
+        <img src="../../../assets/images/more.png" alt="more-icon">
+        <img src="../../../assets/images/notification.png" alt="nofi-icon">
+
+        <div class="action"  >
+            <div class="profile" *ngIf="!displayName">
+                <img src="../../../../../../../assets/images/user.png" alt="ava" class="user-icon" (click)="login()">
+            </div>
+            <div class="profile" *ngIf="displayName" >
+                <img (error)="handleError($event)" src="{{photoURL}}" alt="ava" class="user-icon"
+                    (click)="toggleShow()">
+            </div>
+            <div class="menu" *ngIf="isShown">
+                <h3>{{displayName}}<br><span>Special Guys</span></h3>
+                <ul>
+                    <li><img src="../../../assets/images/user.png" alt=""><a [routerLink]="'profile/channel'"
+                            (click)="toggleShow()">Your Channel</a></li>
+                    <li><img src="../../../assets/images/edit.png" alt=""><a [routerLink]="'profile/add'"
+                            (click)="toggleShow()">Add Video</a></li>
+                    <li><img src="../../../assets/images/inbox.png" alt=""><a>Inbox</a></li>
+                    <li><img src="../../../assets/images/setting.png" alt=""><a>Settings</a></li>
+                    <li><img src="../../../assets/images/help.png" alt=""><a>Help</a></li>
+                    <li (click)="logout()"><img src="../../../assets/images/logout.png" alt=""><a>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

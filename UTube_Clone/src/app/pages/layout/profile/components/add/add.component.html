@@ -1,0 +1,205 @@
+<!-- <div id="upload-side">
+        <div class="upload-card">
+            <h2>Upload Video</h2>
+            <div class="container" appDnd (fileDropped)="onFileDropped($event)">
+                <input type="file" #fileDropRef id="fileDropRef" (change)="videoFileBrowseHandler($event.target)" accept="video/*"/>
+                <img src="https://raw.githubusercontent.com/progtarek/angular-drag-n-drop-directive/dc622c7510c138527c5fa89b551d71693f6f679f/src/assets/img/dnd/ic-upload-file.svg"
+                    width="35px" alt="">
+                <h3>Drag and drop file here</h3>
+                <h3 class="or">or</h3>
+                <label for="fileDropRef">Browse for file</label>
+            </div>
+            <div class="files-list">
+                <div class="single-file" *ngFor="let file of files; let i = index">
+                    <img src="https://www.clipartmax.com/png/full/57-572154_video-camera-svg-png-icon-free-download-video-cam-icon-outline-png.png"
+                        width="30px" alt="file" style="margin-right:10px">
+    
+                    <div class="info">
+                        <h4 class="name">
+                            {{ file?.name }}
+                        </h4>
+                        <p class="size">
+                            {{ formatBytes(file?.size) }}
+                        </p>
+                        <app-progress [progress]="file?.progress"></app-progress>
+                    </div>
+                    <img src="https://raw.githubusercontent.com/progtarek/angular-drag-n-drop-directive/dc622c7510c138527c5fa89b551d71693f6f679f/src/assets/img/dnd/ic-delete-file.svg"
+                        class="delete" width="20px" alt="file" (click)="deleteFile(i)">
+                </div>
+            </div>
+        </div>
+    
+        <div class="upload-card">
+            <h2>Upload Image</h2>
+            <div class="container" appDnd (fileDropped)="onFileDropped($event)">
+                <input type="file" #fileDropRef id="fileDropRef" (change)="imageFileBrowseHandler($event.target)" accept="image/*"/>
+                <img src="https://raw.githubusercontent.com/progtarek/angular-drag-n-drop-directive/dc622c7510c138527c5fa89b551d71693f6f679f/src/assets/img/dnd/ic-upload-file.svg"
+                    width="35px" alt="">
+                <h3>Drag and drop file here</h3>
+                <h3 class="or">or</h3>
+                <label for="fileDropRef">Browse for file</label>
+            </div>
+            <div class="files-list">
+                <div class="single-file" *ngFor="let file of files; let i = index">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Picture_icon_BLACK.svg" width="30px"
+                        alt="file" style="margin-right:10px">
+    
+                    <div class="info">
+                        <h4 class="name">
+                            {{ file?.name }}
+                        </h4>
+                        <p class="size">
+                            {{ formatBytes(file?.size) }}
+                        </p>
+                        <app-progress [progress]="file?.progress"></app-progress>
+                    </div>
+                    <img src="https://raw.githubusercontent.com/progtarek/angular-drag-n-drop-directive/dc622c7510c138527c5fa89b551d71693f6f679f/src/assets/img/dnd/ic-delete-file.svg"
+                        class="delete" width="20px" alt="file" (click)="deleteFile(i)">
+                </div>
+            </div>
+    
+        </div>
+    
+    </div> -->
+<!-- <div *ngIf="showSpinner" >
+    <mat-spinner></mat-spinner>
+</div> -->
+
+<!-- 
+<form [formGroup]="videoUploadForm" class="form" (submit)="add()">
+    <label for="title">Title</label>
+    <input type="text" formControlName="title">
+    <div
+        *ngIf="videoUploadForm.controls['title'].hasError('required') && (videoUploadForm.controls['title'].dirty||videoUploadForm.controls['title'].touched)">
+        <small class="text-danger" style="color: red; font-weight: 600;">Title is empty.</small>
+    </div>
+
+    <label for="hashtags">Hashtags</label>
+    <input type="text" formControlName="hashtags">
+    <div>
+        <small class="text-danger" style="color: red; font-weight: 600;">First char of hastag is # and per space is
+            one hastag</small>
+    </div>
+    <label for="description">Description</label>
+    <textarea formControlName="description"></textarea>
+    <div
+        *ngIf="videoUploadForm.controls['description'].hasError('required') && (videoUploadForm.controls['description'].dirty||videoUploadForm.controls['description'].touched)">
+        <small class="text-danger" style="color: red; font-weight: 600;">Description is empty.</small>
+    </div>
+    <button [disabled]="!videoUploadForm.valid" mat-raised-button>SUBMIT</button>
+</form> -->
+<div style="background-color: black; opacity:0.3; width: 100vw;height: 100vh;z-index: 5;position: fixed;"
+    *ngIf="showSpinner">
+    <div class="loader">
+        <div class="bar1"></div>
+        <div class="bar1"></div>
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar2"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+        <div class="bar3"></div>
+        <div class="bar3"></div>
+        <div class="bar4"></div>
+        <div class="bar4"></div>
+        <div class="bar4"></div>
+        <div class="bar5"></div>
+        <div class="bar5"></div>
+        <div class="bar5"></div>
+        <div class="bar6"></div>
+        <div class="bar6"></div>
+        <div class="bar6"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="left">
+        <div id="temp" style="margin-left:50px">
+            <div class="header">
+                <h2 class="animation a1">Upload Video</h2>
+                <h4 class="animation a2">Correct all the info to upload the video</h4>
+            </div>
+
+            <form [formGroup]="videoUploadForm" (submit)="add()" class="form">
+                <input type="text" formControlName="title" class="form-field animation a3" placeholder="Title">
+                <div
+                    *ngIf="videoUploadForm.controls['title'].hasError('required') && (videoUploadForm.controls['title'].dirty||videoUploadForm.controls['title'].touched)">
+                    <small class="text-danger" style="color: red; font-weight: 600; padding: 0 16px;">Title is
+                        empty.</small>
+                </div>
+                <input type="text" formControlName="hashtags" class="form-field animation a4" placeholder="Hashtags">
+                <div>
+                    <small class="form-field animation a3"
+                        style="color: red; font-weight: 600; border:none; font-family:poppins, sans-serif;">First char
+                        of hastag is # and perspace is one hastag</small>
+                </div>
+                <textarea formControlName="description" class="form-field animation a3"
+                    placeholder="Description"></textarea>
+                <div
+                    *ngIf="videoUploadForm.controls['description'].hasError('required') && (videoUploadForm.controls['description'].dirty||videoUploadForm.controls['description'].touched)">
+                    <small class="text-danger" style="color: red; font-weight: 600; padding: 0 16px;">Description is
+                        empty.</small>
+                </div>
+                <button [disabled]="!videoUploadForm.valid" class="animation a6">SUBMIT</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="right">
+        <div class="upload-form">
+            <!-- <div
+                style="opacity:0.3; width: 100%;height: 100%;z-index: 5;position: fixed; top: 100px;text-align: center;"  *ngIf="isEmpty">
+                <img style="width: 100%; height: 100%;" src="https://i.giphy.com/media/l3nWhI38IWDofyDrW/giphy.webp" >
+            </div> -->
+            <p id="title">Upload Video (Only 1)</p>
+            <div id="upload-side">
+                <div class="custom-dropzone" ngx-dropzone (change)="onVideoSelect($event)" [multiple]="false"
+                    accept="video/*">
+                    <ngx-dropzone-label>Drop video, baby!</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of videoFiles" [removable]="true" (removed)="onVideoRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </div>
+
+                <div id="preview-video-zone">
+                    <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videoFiles"
+                        [file]="f">
+                        <!-- <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
+                    </ngx-dropzone-video-preview>
+                </div>
+            </div>
+
+            <div id="upload-side">
+                <div class="custom-dropzone" ngx-dropzone (change)="onImageSelect($event)" [multiple]="false"
+                    accept="image/*">
+                    <ngx-dropzone-label>Drop thumbnail, baby!</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of imageFiles" [removable]="true" (removed)="onImageRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </div>
+
+                <div id="preview-video-zone">
+                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imageFiles"
+                        [file]="f">
+                        <!-- <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
+                    </ngx-dropzone-image-preview>
+                </div>
+
+                <div id="cc" style="display: flex; flex-direction:column; ">
+                    <h2 style="margin-top: 10px; text-align: center;">Thumnail Preview <small>(select one below and drag
+                            it into
+                            above)</small></h2>
+                    <div style="border: 2px dashed #717386;width: 87%;margin:0 auto;" *ngIf="testImageFiles.length > 0">
+                        <div style="display: flex;justify-content: center;flex-wrap: wrap;align-items: center;transition: all 0.3s"
+                            *ngIf="!isEmpty">
+                            <div *ngFor="let f of testImageFiles">
+                                <img src="{{f}}"
+                                    style=" width: 200px; margin: 10px; cursor: pointer;object-fit : cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

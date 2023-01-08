@@ -1,0 +1,160 @@
+<div class="container play-container">
+    <div class="row">
+        <div class="play-video" *ngIf="video$|async as videoTest">
+            <video #audioControl controls id="video" 
+                (start)="resetCountable()"
+                (ended)="resetCountable()" 
+                (play)="predictTimeToCount($event,videoTest._id)" 
+                (pause)="stopCountingTime()" >
+            
+                <!-- <source *ngIf="(video$|async)?.url"
+                    src="http://127.0.0.1:5000/video/all/vid?path={{(video$ | async)?.url}}"> -->
+                <!-- <source *ngIf="!(video$|async)?.url" src="../../../../assets/images/video.mp4"> -->
+            </video>
+            <div class="tags" *ngIf="(video$ | async)?.hashtags">
+                <a *ngFor="let hash of (video$ | async)?.hashtags">{{hash}} </a>
+            </div>
+            <h3>{{(video$ | async)?.title}}</h3>
+            <div class="play-video-info">
+                <p> {{(video$ | async)?.views}} Views &bull; {{(video$ | async)?.timeConvert}}</p>
+                <div *ngIf="idToken">
+                    <a *ngIf="!isLiked"><img src="../../../../assets/images/like.png"
+                            (click)="likeVideo(videoTest._id)">{{likes_temp}}</a>
+                    <a *ngIf="isLiked"><img src="../../../../assets/images/liked.png"
+                            (click)="likeVideo(videoTest._id)">{{likes_temp}}</a>
+                    <a *ngIf="!isDisliked"><img src="../../../../assets/images/dislike.png"
+                            (click)="dislikeVideo(videoTest._id)">{{dislikes_temp}}</a>
+                    <a *ngIf="isDisliked"><img src="../../../../assets/images/disliked.png"
+                            (click)="dislikeVideo(videoTest._id)">{{dislikes_temp}}</a>
+                    <a class="click"><img src="../../../../assets/images/share.png">Share</a>
+                    <a><img src="../../../../assets/images/save.png">Save</a>
+                </div>
+                <div *ngIf="!idToken">
+                    <a *ngIf="!isLiked"><img src="../../../../assets/images/like.png"
+                            (click)="loginToAct()">{{likes_temp}}</a>
+                    <a *ngIf="!isDisliked"><img src="../../../../assets/images/dislike.png"
+                            (click)="loginToAct()">{{dislikes_temp}}</a>
+                    <a class="click"><img src="../../../../assets/images/share.png">Share</a>
+                    <a><img src="../../../../assets/images/save.png">Save</a>
+                </div>
+            </div>
+            <hr>
+            <div class="publisher" *ngIf="idToken">
+                <img src="{{(video$ | async)?.owner?.photoUrl}}" (error)="handleChannelError($event)">
+                <div>
+                    <div id="author-name">{{(video$ | async)?.owner?.name}}</div>
+                    <span>{{(video$ | async)?.owner?.subscribers}} Subscribers</span>
+                </div>
+                <button *ngIf="!isSubscribe" type="button" style="text-transform: uppercase; font-weight: bold;"
+                    (click)="subscribe()">Subscribe</button>
+                <button *ngIf="isSubscribe" type="button" style="
+                background-color: #ececec ;color: #606060; text-transform: uppercase; font-weight: bold;"
+                    (click)="openUnSubDialog('1000ms', '1000ms')">Subscribed</button>
+            </div>
+            <div class="publisher" *ngIf="!idToken">
+                <img src="{{(video$ | async)?.owner?.photoUrl}}" (error)="handleChannelError($event)">
+                <div>
+                    <div>{{(video$ | async)?.owner?.name}}</div>
+                    <span>{{(video$ | async)?.owner?.subscribers}} Subscribers</span>
+                </div>
+                <button *ngIf="!isSubscribe" type="button" style="text-transform: uppercase; font-weight: bold;"
+                    (click)="loginToAct()">Subscribe</button>
+            </div>
+            <div class="video-description">
+                <p [innerHtml]="(video$ | async)?.description"></p>
+                <!-- <p>Subscribe Easzy Tutorails to watch more tutorials on web development</p> -->
+                <hr>
+                <h4>{{(commentList$ | async)?.length}} Comments</h4>
+
+                <div class="add-comment" *ngIf="idToken">
+                    <img *ngIf="this.user_avatar" src="{{this.user_avatar}}" (error)="handleUserError($event)">
+                    <img *ngIf="!this.user_avatar" src="../../../../assets/images/Kiet.jpg">
+                    <form [formGroup]="commentForm" (submit)="comment(videoTest._id)" autocomplete="off">
+                        <input type="text" placeholder="Write comments..." formControlName="content"
+                            (focus)="dropCmtBox($event)" (blur)="dropCmtBox($event)">
+                        <div
+                            *ngIf="commentForm.controls['content'].hasError('required') && (commentForm.controls['content'].dirty || commentForm.controls['content'].touched)">
+                        </div>
+                        <div class="btn" *ngIf="!isBtnHide">
+                            <button type="reset" (click)="resetCommentForm()">Cancel</button>
+                            <button type="submit" [disabled]="!commentForm.valid">Comment</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="add-comment" *ngIf="!idToken">
+                    <img *ngIf="!this.user_avatar" src="../../../../assets/images/Kiet.jpg">
+                    <input type="text" placeholder="Write comments..." (click)="login()">
+                    <div
+                        *ngIf="commentForm.controls['content'].hasError('required') && (commentForm.controls['content'].dirty || commentForm.controls['content'].touched)">
+                    </div>
+                </div>
+                <div *ngIf="idToken">
+                    <div class="old-comment" *ngFor="let comment  of commentList$| async; let i = index">
+                        <img class="old-cmt-ava" src="{{comment.user.photoUrl}}" (error)="handleUserError($event)">
+                        <div class="content">
+                            <h3>{{comment.user.name}}<span>{{comment.timeConvert}}</span></h3>
+                            <p>{{comment.content}}</p>
+                            <div class="acomment-action">
+                                <img src="../../../../assets/images/like.png" alt="">
+                                <span><i class="fa-solid fa-infinity"></i></span>
+                                <img src="../../../../assets/images/dislike.png" alt="">
+                                <span><i class="fa-solid fa-infinity"></i></span>
+                                <span id="rep" (click)="replyCmt(i)">REPLY</span>
+                                <a>All replies</a>
+                            </div>
+                            <div class="add-comment" *ngIf="this.replyComment[i]">
+                                <img *ngIf="this.user_avatar" src="{{this.user_avatar}}"
+                                    (error)="handleUserError($event)">
+                                <img *ngIf="!this.user_avatar" src="../../../../assets/images/Kiet.jpg">
+                                <form [formGroup]="replyForm" (submit)="reply(videoTest._id, comment._id)"
+                                    autocomplete="off">
+                                    <input type="text" placeholder="Write comments..." formControlName="content"
+                                        (focus)="dropRepBox($event)" (blur)="dropRepBox($event)">
+                                    <div
+                                        *ngIf="replyForm.controls['content'].hasError('required') && (replyForm.controls['content'].dirty || replyForm.controls['content'].touched)">
+                                    </div>
+                                    <div class="btn">
+                                        <button type="reset" (click)="resetReplyForm(i)">Cancel</button>
+                                        <button type="submit" [disabled]="!replyForm.valid">Comment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="!idToken">
+                    <div class="old-comment" *ngFor="let comment  of commentList$| async; let i = index">
+                        <img class="old-cmt-ava" src="{{comment.user.photoUrl}}" (error)="handleUserError($event)">
+                        <div class="content">
+                            <h3>{{comment.user.name}}<span>{{comment.timeConvert}}</span></h3>
+                            <p>{{comment.content}}</p>
+                            <div class="acomment-action">
+                                <img src="../../../../assets/images/like.png" (click)="loginToAct()">
+                                <span><i class="fa-solid fa-infinity"></i></span>
+                                <img src="../../../../assets/images/dislike.png" (click)="loginToAct()">
+                                <span><i class="fa-solid fa-infinity"></i></span>
+                                <span id="rep" (click)="loginToAct()">REPLY</span>
+                                <a (click)="loginToAct()">All replies</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="side-video-list" *ngFor="let video of entireVideoList$ | async">
+                <a class="small-thumbnail"> <img src="{{video.photoURL}}" alt="" (click)="playVideo(video._id)"
+                        routerLinkActive="active"></a>
+                <div class="vid-info" (click)="playVideo(video._id)" routerLinkActive="active">
+                    <a>{{video.title}}</a>
+                    <p>{{video.owner.name}}</p>
+                    <p>{{video.views}} Views &bull; {{video.timeConvert}}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div *ngIf="isMinimize" class="sidebar" @slidein>
+    <div class="shortcut-links">
+        <a><img src="../../../assets/images/home.png" alt="home-icon">
+            <p>Home</p>
+        </a>
+        <a><img src="../../../assets/images/explore.png" alt="explore-icon">
+            <p>Explore</p>
+        </a>
+        <a><img src="../../../assets/images/subscriprion.png" alt="subcript-icon">
+            <p>Subcription</p>
+        </a>
+        <a><img src="../../../assets/images/library.png" alt="library-icon">
+            <p>Library</p>
+        </a>
+        <a><img src="../../../assets/images/history.png" alt="his-icon">
+            <p>History</p>
+        </a>
+        <a><img src="../../../assets/images/playlist.png" alt="playlist-icon">
+            <p>Playlist</p>
+        </a>
+        <a><img src="../../../assets/images/messages.png" alt="home-icon">
+            <p>Messages</p>
+        </a>
+        <a><img src="../../../assets/images/show-more.png" alt="home-icon">
+            <p>Show More</p>
+        </a>
+        <hr>
+        <div class="subscribed-list">
+            <h3>SUBSCRIBED</h3>
+            <a *ngFor="let subUser of (userSubList$ | async)">
+                <img src="{{subUser.photoUrl}}" (error)="handleError($event)">
+                <p *ngIf="(userId$ | async) != subUser._id">{{subUser.name}}</p>
+                <p *ngIf="(userId$ | async) == subUser._id">{{subUser.name}} (Me)</p>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<div class="small-sidebar" *ngIf="!isMinimize"  @slidein>
+    <div class="shortcut-links">
+        <a><img src="../../../assets/images/home.png" alt="home-icon">
+            <p>Home</p>
+        </a>
+        <a><img src="../../../assets/images/explore.png" alt="explore-icon">
+            <p>Explore</p>
+        </a>
+        <a><img src="../../../assets/images/subscriprion.png" alt="subcript-icon">
+            <p>Subcription</p>
+        </a>
+        <a><img src="../../../assets/images/library.png" alt="library-icon">
+            <p>Library</p>
+        </a>
+        <a><img src="../../../assets/images/history.png" alt="his-icon">
+            <p>History</p>
+        </a>
+        <a><img src="../../../assets/images/playlist.png" alt="playlist-icon">
+            <p>Playlist</p>
+        </a>
+        <a><img src="../../../assets/images/messages.png" alt="home-icon">
+            <p>Messages</p>
+        </a>
+        <a><img src="../../../assets/images/show-more.png" alt="home-icon">
+            <p>Show More</p>
+        </a>
+        <hr>
+        <div class="subscribed-list">
+            <h3>SUBSCRIBED</h3>
+            <a *ngFor="let subUser of (userInfo$ | async)?.subscriberList">
+                <img src="{{subUser.photoUrl}}" alt="user">
+                <p>{{subUser.name}}</p>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "clone-a1137": {
+      "hosting": {
+        "UTube_Clone": [
+          "clone-a1137"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "clone-a1137"
+  }
+}

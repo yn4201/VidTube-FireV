@@ -1,0 +1,21 @@
+#container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    span{
+        text-align: center;
+        justify-content: center;
+    }
+
+    hr{
+        margin: 10px 0 0 0;
+    }
+
+    #option{
+        justify-content: space-between;
+        text-align: center;
+        align-items: center;
+        display: flex;
+    }
+}

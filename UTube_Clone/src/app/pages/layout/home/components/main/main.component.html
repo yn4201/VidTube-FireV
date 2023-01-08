@@ -1,0 +1,59 @@
+<div *ngIf="isMinimize" >
+    <div class="container">
+        <div class="banner">
+            <img src="../../../assets/images/banner1.png" style="object-fit: cover;">
+        </div>
+        <div class="list-container">
+            <div class="uyen-list">
+                <div class="vid-list" *ngFor="let video of videoList$ | async">
+                    <a >
+                        <img src="{{video.photoURL}}" alt="" class="thumbnail" (click)="playVideo(video._id)">
+                    </a>
+                    <div class="flex-div" style="cursor:pointer;">
+                        <img (error)="handleError($event)" src="{{video.owner.photoUrl}}" alt="ava">
+                        <div class="vid-info" (click)="playVideo(video._id)">
+                            <a class="owner-des" >{{video.title}}</a>
+                            <p class="owner-name">{{video.owner.name}}</p>
+                            <p *ngIf="video.hour > 24">{{video.views}} Views &bull; {{video.day}} day ago</p>
+                            <p *ngIf="video.hour > 0 && video.hour < 25">{{video.views}} Views &bull; {{video.hour}}
+                                hour ago</p>
+                            <p *ngIf="video.hour < 1 && video.minute > 0">{{video.views}} Views &bull; {{video.minute}}
+                                minute ago</p>
+                            <p *ngIf="video.hour < 1 && video.minute < 1">{{video.views}} Views &bull; {{video.second}}
+                                second ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!isMinimize" >
+    <div class="large-container">
+        <div class="banner">
+            <img src="../../../assets/images/banner1.png" style="object-fit: cover;">
+        </div>
+        <div class="list-container">
+            <div class="uyen-list">
+                <div class="vid-list" *ngFor="let video of videoList$ | async">
+                    <a > <img src="{{video.photoURL}}" class="thumbnail"  (click)="playVideo(video._id)" >
+                    </a>
+                    <div class="flex-div">
+                        <img (error)="handleError($event)" src="{{video.owner.photoUrl}}" alt="ava">
+                        <div class="vid-info"  (click)="playVideo(video._id)">
+                            <a class="owner-des" >{{video.title}}</a>
+                            <p class="owner-name">{{video.owner.name}}</p>
+                            <p *ngIf="video.hour > 24">{{video.views}} Views &bull; {{video.day}} day ago</p>
+                            <p *ngIf="video.hour > 0 && video.hour < 25">{{video.views}} Views &bull; {{video.hour}}
+                                hour ago</p>
+                            <p *ngIf="video.hour < 1 && video.minute > 0">{{video.views}} Views &bull; {{video.minute}}
+                                minute ago</p>
+                            <p *ngIf="video.hour < 1 && video.minute < 1">{{video.views}} Views &bull; {{video.second}}
+                                second ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
